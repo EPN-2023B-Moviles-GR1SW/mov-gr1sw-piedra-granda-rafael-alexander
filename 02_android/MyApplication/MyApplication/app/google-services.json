@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "351472511254",
+    "project_id": "b2023-gr1sw-rapg",
+    "storage_bucket": "b2023-gr1sw-rapg.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:351472511254:android:a1d6a5ecfa68094e3d4837",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTE8cxrcFxAHvGd2ijnhLI_U-QM2kFe8A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

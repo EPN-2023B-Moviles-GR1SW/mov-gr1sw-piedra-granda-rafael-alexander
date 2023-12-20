@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="saludo">Good morning in portrait</string>
+    <color name="bg_principal">#FFBB86FC</color>
+    <string name="font_family">casual</string>
+</resources>

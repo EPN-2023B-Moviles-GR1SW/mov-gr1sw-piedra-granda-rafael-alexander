@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bg_principal">#FF03DAC5</color>
+    <string name="saludo">Buenos días en landscape</string>
+    <string name="font_family">serif-monospace</string>
+</resources>

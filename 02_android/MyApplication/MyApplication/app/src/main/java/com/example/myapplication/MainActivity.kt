@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity() {
         val botonListView = findViewById<Button>(R.id.btn_ir_list_view)
         botonListView
             .setOnClickListener {
-//                irActividad(BListView::class.java)
+                irActividad(BListView::class.java)
             }
         val botonIntentImplicito = findViewById<Button>(
             R.id.btn_ir_intent_implicito)
@@ -102,6 +102,12 @@ class MainActivity : AppCompatActivity() {
         botonSqlite
             .setOnClickListener {
                 irActividad(ECrudEntrenador::class.java)
+            }
+
+        val botonRView = findViewById<Button>(R.id.btn_revcycler_view)
+        botonRView
+            .setOnClickListener {
+                irActividad(FRecyclerView::class.java)
             }
 
 

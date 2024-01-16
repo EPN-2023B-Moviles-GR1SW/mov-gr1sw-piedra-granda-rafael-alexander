@@ -6,13 +6,13 @@ class BaseDatosMemoria {
 
         init {
             arreglo.add(
-                Periodico(1, "Periodico1", true, "14/07/02", 2.2, 20, ArrayList())
+                Periodico(1, "Periodico1",  "14/07/02",  ArrayList())
             )
             arreglo.add(
-                Periodico(1, "Periodico2", true, "14/07/02", 2.2, 20, ArrayList())
+                Periodico(1, "Periodico2",  "14/07/02",  ArrayList())
             )
             arreglo.add(
-                Periodico(1, "Periodico3", true, "14/07/02", 2.2, 20, ArrayList())
+                Periodico(1, "Periodico3",  "14/07/02",  ArrayList())
             )
         }
     }

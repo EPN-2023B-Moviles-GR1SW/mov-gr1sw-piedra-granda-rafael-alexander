@@ -1,21 +1,20 @@
 package com.example.myapplication
 
-import android.os.Bundle
-import android.widget.Button
-import androidx.appcompat.app.AppCompatActivity
 import android.content.DialogInterface
 import android.content.Intent
+import android.os.Bundle
 import android.view.ContextMenu
 import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.ListView
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 
-
-class MainActivity : AppCompatActivity() {
+class ListViewNoticia : AppCompatActivity() {
 
     val arreglo = BaseDatosMemoria.arreglo
     var posicionItemSeleccionado = -1

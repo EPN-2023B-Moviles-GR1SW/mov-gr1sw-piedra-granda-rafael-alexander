@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="mi_editar" type="id" />
+    <item name="mi_eliminar" type="id" />
+    <item name="mi_ver" type="id" />
+</resources>

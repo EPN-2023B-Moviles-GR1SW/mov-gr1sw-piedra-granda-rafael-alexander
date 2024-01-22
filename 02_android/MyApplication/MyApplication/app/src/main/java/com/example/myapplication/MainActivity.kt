@@ -1,5 +1,6 @@
-package com.example.myapplication
+package com.example.myapplication.ui.activity
 
+import android.app.Activity
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
@@ -11,12 +12,27 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ListView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
+import com.example.myapplication.BaseDatosMemoria
+import com.example.myapplication.R
+import com.example.myapplication.model.Periodico
 import com.google.android.material.snackbar.Snackbar
 
 
 class MainActivity : AppCompatActivity() {
-
+    val callbackContenidoIntentExplicito =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                if (result.data != null) {
+                    // Logica Negocio
+                    val data = result.data
+                    mostrarSnackbar(
+                        "${data?.getStringExtra("nombreModificado")}"
+                    )
+                }
+            }
+        }
     val arreglo = BaseDatosMemoria.arreglo
     var posicionItemSeleccionado = -1
     override fun onCreateContextMenu(
@@ -41,7 +57,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             R.id.mi_eliminar -> {
-                val listView = findViewById<ListView>(R.id.lv_list_view)
+                val listView = findViewById<ListView>(R.id.lv_list_view_noticias)
                 val adaptador = listView.adapter as ArrayAdapter<Periodico>
 //                mostrarSnackbar("${posicionItemSeleccionado}")
                 abrirDialogo(adaptador)
@@ -49,7 +65,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             R.id.mi_ver -> {
-                irActividad(ListViewNoticia::class.java)
+                irActividadConParametros(ListViewNoticia::class.java)
                 return true
             }
 
@@ -60,9 +76,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_blist_view)
+        setContentView(R.layout.activity_main)
 
-        val listView = findViewById<ListView>(R.id.lv_list_view)
+        val listView = findViewById<ListView>(R.id.lv_list_view_noticias)
         val adaptador = ArrayAdapter(
             this, // Contexto
             android.R.layout.simple_list_item_1, // como se va a ver (XML)
@@ -76,7 +92,7 @@ class MainActivity : AppCompatActivity() {
         )
         botonAnadirListView
             .setOnClickListener {
-                irActividad(CrudPeriodico::class.java)
+                irActividad(FormNuevoPeriodico::class.java)
 //                añadirPeriodico(adaptador)
             }
         registerForContextMenu(listView)
@@ -144,7 +160,7 @@ class MainActivity : AppCompatActivity() {
 
     fun mostrarSnackbar(texto: String) {
         val snack = Snackbar.make(
-            findViewById(R.id.lv_list_view),
+            findViewById(R.id.lv_list_view_noticias),
             texto, Snackbar.LENGTH_LONG
         )
         snack.show()
@@ -153,5 +169,14 @@ class MainActivity : AppCompatActivity() {
     fun irActividad(clase: Class<*>) {
         val intent = Intent(this, clase)
         startActivity(intent)
+    }
+
+    fun irActividadConParametros(
+        clase: Class<*>
+    ) {
+        val intentExplicito = Intent(this, clase)
+        // Enviar parametros (solamente variables primitivas)
+        intentExplicito.putExtra("posicionItemSeleccionado", posicionItemSeleccionado)
+        callbackContenidoIntentExplicito.launch(intentExplicito)
     }
 }

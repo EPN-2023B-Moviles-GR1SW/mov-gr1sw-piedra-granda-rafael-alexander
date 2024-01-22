@@ -12,11 +12,12 @@ import android.widget.Button
 import android.widget.ListView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.example.myapplication.model.Noticia
+import com.example.myapplication.model.Periodico
 import com.google.android.material.snackbar.Snackbar
 
 class ListViewNoticia : AppCompatActivity() {
 
-    val arreglo = BaseDatosMemoria.arreglo
     var posicionItemSeleccionado = -1
     override fun onCreateContextMenu(
         menu: ContextMenu?,
@@ -33,6 +34,8 @@ class ListViewNoticia : AppCompatActivity() {
 
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
+        val indice = intent?.getStringExtra("nombre")?.toInt() ?: 0
+        val arreglo = BaseDatosMemoria.obtenerNoticias(indice)
         return when (item.itemId) {
             R.id.mi_editar -> {
                 mostrarSnackbar("${posicionItemSeleccionado}")
@@ -40,10 +43,10 @@ class ListViewNoticia : AppCompatActivity() {
             }
 
             R.id.mi_eliminar -> {
-                val listView = findViewById<ListView>(R.id.lv_list_view)
+                val listView = findViewById<ListView>(R.id.lv_list_view_noticias)
                 val adaptador = listView.adapter as ArrayAdapter<Periodico>
 //                mostrarSnackbar("${posicionItemSeleccionado}")
-                abrirDialogo(adaptador)
+                abrirDialogo(adaptador, arreglo)
                 return true
             }
 
@@ -59,9 +62,11 @@ class ListViewNoticia : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_blist_view)
-
-        val listView = findViewById<ListView>(R.id.lv_list_view)
+        val indice = intent?.getStringExtra("nombre")?.toInt() ?: 0
+        val arreglo = BaseDatosMemoria.obtenerNoticias(indice)
+        setContentView(R.layout.activity_list_view_noticias)
+        val edad = intent.getIntExtra("posicionItemSeleccionado", 0)
+        val listView = findViewById<ListView>(R.id.lv_list_view_noticias)
         val adaptador = ArrayAdapter(
             this, // Contexto
             android.R.layout.simple_list_item_1, // como se va a ver (XML)
@@ -71,7 +76,7 @@ class ListViewNoticia : AppCompatActivity() {
         adaptador.notifyDataSetChanged()
 
         val botonAnadirListView = findViewById<Button>(
-            R.id.btn_anadir_list_view
+            R.id.btn_anadir_list_view_noticias
         )
         botonAnadirListView
             .setOnClickListener {
@@ -81,7 +86,7 @@ class ListViewNoticia : AppCompatActivity() {
         registerForContextMenu(listView)
     }
 
-    fun abrirDialogo(adaptador: ArrayAdapter<Periodico>) {
+    fun abrirDialogo(adaptador: ArrayAdapter<Periodico>, arreglo: ArrayList<Noticia>) {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Desea eliminar")
         builder.setPositiveButton(
@@ -134,16 +139,16 @@ class ListViewNoticia : AppCompatActivity() {
             "Diario del Norte",
             "El Mercurio"
         )
-        arreglo.add(
-            Periodico(1, nombres.random(), "14/07/02", ArrayList())
-        )
+//        arreglo.add(
+//            Periodico(1, nombres.random(), "14/07/02", ArrayList())
+//        )
         adaptador.notifyDataSetChanged()
     }
 
 
     fun mostrarSnackbar(texto: String) {
         val snack = Snackbar.make(
-            findViewById(R.id.lv_list_view),
+            findViewById(R.id.lv_list_view_noticias),
             texto, Snackbar.LENGTH_LONG
         )
         snack.show()

@@ -1,16 +1,19 @@
-package com.example.myapplication
+package com.example.myapplication.ui.activity
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import com.example.myapplication.BaseDatosMemoria
+import com.example.myapplication.R
+import com.example.myapplication.model.Periodico
 import com.google.android.material.snackbar.Snackbar
 
 class CrudPeriodico : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_ecrud_entrenador)
+        setContentView(R.layout.activity_crud_entrenador)
 
         val btnCrearPeriodico = findViewById<Button>(R.id.btn_crear_periodico)
         btnCrearPeriodico
@@ -29,7 +32,7 @@ class CrudPeriodico : AppCompatActivity() {
                 irActividad(MainActivity::class.java)
             }
 
-    }// Fin OnCreate
+    }
 
     fun mostrarSnackbar(texto: String) {
         Snackbar
@@ -45,5 +48,5 @@ class CrudPeriodico : AppCompatActivity() {
         val intent = Intent(this, clase)
         startActivity(intent)
     }
-} // FIN onCreate
+}
 

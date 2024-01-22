@@ -1,0 +1,43 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+hide circle
+interface GenericDAO{
+    create(entity: T)
+    update(id: ID, entity: T)
+    delete(id: ID)
+    getById(id: ID)
+}
+class Noticia{
+    id: String
+    titulo: String
+    autor: String
+    fechaPublicacion: Date
+    relevancia: Double
+    destacada: Boolean
+}
+class Periodico{
+    id:String
+    nombre: String
+    esDigital: Boolean
+    fechaFundacion: Date
+    confianza: Double
+    circulación: Int
+}
+class NoticiaDAO{
+    create(entity: Noticia)
+    update(id: String, entity: Noticia)
+    delete(id: String)
+    getById(id: String)
+}
+class PeriodicoDAO{
+    create(entity: Periodico)
+    update(id: String, entity: Periodico)
+    delete(id: String)
+    getById(id: String)
+}
+Periodico -r-> Noticia
+PeriodicoDAO ..u.|> GenericDAO
+NoticiaDAO ..u.|> GenericDAO
+NoticiaDAO --> Noticia
+PeriodicoDAO --> Periodico
+@enduml

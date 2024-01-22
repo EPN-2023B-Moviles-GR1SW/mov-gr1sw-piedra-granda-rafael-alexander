@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.example.myapplication.ui.activity
 
 import android.content.DialogInterface
 import android.content.Intent
@@ -12,6 +12,8 @@ import android.widget.Button
 import android.widget.ListView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.example.myapplication.BaseDatosMemoria
+import com.example.myapplication.R
 import com.example.myapplication.model.Noticia
 import com.example.myapplication.model.Periodico
 import com.google.android.material.snackbar.Snackbar
@@ -26,7 +28,7 @@ class ListViewNoticia : AppCompatActivity() {
     ) {
         super.onCreateContextMenu(menu, v, menuInfo)
         val inflater = menuInflater
-        inflater.inflate(R.menu.menu, menu)
+        inflater.inflate(R.menu.menu_noticias, menu)
         val info = menuInfo as AdapterView.AdapterContextMenuInfo
         val posicion = info.position
         posicionItemSeleccionado = posicion
@@ -34,7 +36,7 @@ class ListViewNoticia : AppCompatActivity() {
 
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
-        val indice = intent?.getStringExtra("nombre")?.toInt() ?: 0
+        val indice = intent.getIntExtra("posicionItemSeleccionado", 0)
         val arreglo = BaseDatosMemoria.obtenerNoticias(indice)
         return when (item.itemId) {
             R.id.mi_editar -> {
@@ -43,15 +45,9 @@ class ListViewNoticia : AppCompatActivity() {
             }
 
             R.id.mi_eliminar -> {
-                val listView = findViewById<ListView>(R.id.lv_list_view_noticias)
+                val listView = findViewById<ListView>(R.id.lv_list_view_periodico)
                 val adaptador = listView.adapter as ArrayAdapter<Periodico>
-//                mostrarSnackbar("${posicionItemSeleccionado}")
                 abrirDialogo(adaptador, arreglo)
-                return true
-            }
-
-            R.id.mi_ver -> {
-                irActividad(ListViewNoticia::class.java)
                 return true
             }
 
@@ -62,11 +58,10 @@ class ListViewNoticia : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val indice = intent?.getStringExtra("nombre")?.toInt() ?: 0
+        val indice = intent.getIntExtra("posicionItemSeleccionado",0)
         val arreglo = BaseDatosMemoria.obtenerNoticias(indice)
         setContentView(R.layout.activity_list_view_noticias)
-        val edad = intent.getIntExtra("posicionItemSeleccionado", 0)
-        val listView = findViewById<ListView>(R.id.lv_list_view_noticias)
+        val listView = findViewById<ListView>(R.id.lv_list_view_periodico)
         val adaptador = ArrayAdapter(
             this, // Contexto
             android.R.layout.simple_list_item_1, // como se va a ver (XML)
@@ -80,8 +75,8 @@ class ListViewNoticia : AppCompatActivity() {
         )
         botonAnadirListView
             .setOnClickListener {
-                irActividad(CrudPeriodico::class.java)
-//                añadirPeriodico(adaptador)
+                mostrarSnackbar("funciona")
+                irActividadConParametros(FormNuevaNoticia::class.java)
             }
         registerForContextMenu(listView)
     }
@@ -92,9 +87,10 @@ class ListViewNoticia : AppCompatActivity() {
         builder.setPositiveButton(
             "Aceptar",
             DialogInterface.OnClickListener { dialog, which ->
-                // Todo: Se debe eliminar el Periodico
                 if (posicionItemSeleccionado != -1 && posicionItemSeleccionado < arreglo.size) {
-                    arreglo.removeAt(posicionItemSeleccionado)
+                    val indicePeriodicoEliminar = intent.getIntExtra("posicionItemSeleccionado", 0)
+                    BaseDatosMemoria.eliminarNoticia(posicionItemSeleccionado,indicePeriodicoEliminar)
+//                    arreglo.removeAt(posicionItemSeleccionado)
                     adaptador.notifyDataSetChanged()
                     mostrarSnackbar("Eliminar aceptado")
                 }
@@ -125,30 +121,9 @@ class ListViewNoticia : AppCompatActivity() {
         dialogo.show()
     }
 
-
-    fun añadirPeriodico(adaptador: ArrayAdapter<Periodico>) {
-        val nombres = arrayOf(
-            "El Comercio",
-            "El Telégrafo",
-            "El Extra",
-            "La Hora",
-            "Expreso",
-            "Ultimas Noticias",
-            "Hoy",
-            "El Universo",
-            "Diario del Norte",
-            "El Mercurio"
-        )
-//        arreglo.add(
-//            Periodico(1, nombres.random(), "14/07/02", ArrayList())
-//        )
-        adaptador.notifyDataSetChanged()
-    }
-
-
     fun mostrarSnackbar(texto: String) {
         val snack = Snackbar.make(
-            findViewById(R.id.lv_list_view_noticias),
+            findViewById(R.id.lv_list_view_periodico),
             texto, Snackbar.LENGTH_LONG
         )
         snack.show()
@@ -158,4 +133,12 @@ class ListViewNoticia : AppCompatActivity() {
         val intent = Intent(this, clase)
         startActivity(intent)
     }
+
+    fun irActividadConParametros(clase: Class<*>) {
+        val indice = intent.getIntExtra("posicionItemSeleccionado", 0)
+        val intentExplicito = Intent(this, clase)
+        intentExplicito.putExtra("posicionItemSeleccionado", indice)
+        startActivity(intentExplicito)
+    }
+
 }

@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.example.myapplication.model
 
 class Periodico(
     id: Int,
@@ -25,4 +25,10 @@ class Periodico(
     fun obtenerTodasLasNoticias(): ArrayList<Noticia> {
         return noticias
     }
+
+    fun agregarNoticia(noticia: Noticia) {
+        noticias.add(noticia)
+    }
+
+
 }

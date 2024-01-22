@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <ListView
-        android:id="@+id/lv_list_view_noticias"
+        android:id="@+id/lv_list_view_periodico"
         android:layout_width="273dp"
         android:layout_height="321dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -21,10 +21,10 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="48dp"
         android:text="Crear Periodico"
-        app:layout_constraintBottom_toTopOf="@+id/lv_list_view_noticias"
-        app:layout_constraintEnd_toEndOf="@+id/lv_list_view_noticias"
+        app:layout_constraintBottom_toTopOf="@+id/lv_list_view_periodico"
+        app:layout_constraintEnd_toEndOf="@+id/lv_list_view_periodico"
         app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="@+id/lv_list_view_noticias" />
+        app:layout_constraintStart_toStartOf="@+id/lv_list_view_periodico" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

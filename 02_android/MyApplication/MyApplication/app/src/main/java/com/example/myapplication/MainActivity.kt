@@ -1,6 +1,5 @@
-package com.example.myapplication.ui.activity
+package com.example.myapplication
 
-import android.app.Activity
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
@@ -12,27 +11,15 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ListView
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
-import com.example.myapplication.BaseDatosMemoria
-import com.example.myapplication.R
 import com.example.myapplication.model.Periodico
+import com.example.myapplication.ui.activity.FormNuevoPeriodico
+import com.example.myapplication.ui.activity.ListViewNoticia
 import com.google.android.material.snackbar.Snackbar
 
 
 class MainActivity : AppCompatActivity() {
-    val callbackContenidoIntentExplicito =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                if (result.data != null) {
-                    // Logica Negocio
-                    val data = result.data
-                    mostrarSnackbar(
-                        "${data?.getStringExtra("nombreModificado")}"
-                    )
-                }
-            }
-        }
+
     val arreglo = BaseDatosMemoria.arreglo
     var posicionItemSeleccionado = -1
     override fun onCreateContextMenu(
@@ -42,7 +29,7 @@ class MainActivity : AppCompatActivity() {
     ) {
         super.onCreateContextMenu(menu, v, menuInfo)
         val inflater = menuInflater
-        inflater.inflate(R.menu.menu, menu)
+        inflater.inflate(R.menu.menu_periodico, menu)
         val info = menuInfo as AdapterView.AdapterContextMenuInfo
         val posicion = info.position
         posicionItemSeleccionado = posicion
@@ -57,7 +44,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             R.id.mi_eliminar -> {
-                val listView = findViewById<ListView>(R.id.lv_list_view_noticias)
+                val listView = findViewById<ListView>(R.id.lv_list_view_periodico)
                 val adaptador = listView.adapter as ArrayAdapter<Periodico>
 //                mostrarSnackbar("${posicionItemSeleccionado}")
                 abrirDialogo(adaptador)
@@ -78,7 +65,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val listView = findViewById<ListView>(R.id.lv_list_view_noticias)
+        val listView = findViewById<ListView>(R.id.lv_list_view_periodico)
         val adaptador = ArrayAdapter(
             this, // Contexto
             android.R.layout.simple_list_item_1, // como se va a ver (XML)
@@ -138,29 +125,10 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    fun añadirPeriodico(adaptador: ArrayAdapter<Periodico>) {
-        val nombres = arrayOf(
-            "El Comercio",
-            "El Telégrafo",
-            "El Extra",
-            "La Hora",
-            "Expreso",
-            "Ultimas Noticias",
-            "Hoy",
-            "El Universo",
-            "Diario del Norte",
-            "El Mercurio"
-        )
-        arreglo.add(
-            Periodico(1, nombres.random(), "14/07/02", ArrayList())
-        )
-        adaptador.notifyDataSetChanged()
-    }
-
 
     fun mostrarSnackbar(texto: String) {
         val snack = Snackbar.make(
-            findViewById(R.id.lv_list_view_noticias),
+            findViewById(R.id.lv_list_view_periodico),
             texto, Snackbar.LENGTH_LONG
         )
         snack.show()
@@ -171,12 +139,10 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun irActividadConParametros(
-        clase: Class<*>
-    ) {
+    fun irActividadConParametros(clase: Class<*>) {
         val intentExplicito = Intent(this, clase)
-        // Enviar parametros (solamente variables primitivas)
         intentExplicito.putExtra("posicionItemSeleccionado", posicionItemSeleccionado)
-        callbackContenidoIntentExplicito.launch(intentExplicito)
+        startActivity(intentExplicito)
     }
+
 }
